@@ -14,8 +14,16 @@ class CreateMoviesTable extends Migration
     public function up()
     {
         Schema::create('movies', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('name');
+            $table->text('sinopsis');
+            $table->boolean('status');
+            $table->unsignedInteger('classification_id');
             $table->timestamps();
+            /**
+             * Keys
+             */
+            $table->foreign('classification_id')->references('id')->on('classifications');
         });
     }
 
@@ -26,6 +34,10 @@ class CreateMoviesTable extends Migration
      */
     public function down()
     {
+        Schema::table('movies', function (Blueprint $table) {
+            $table->dropForeign('movie_classification_id_foreign');
+            $table->dropColumn('classification_id');
+        });
         Schema::dropIfExists('movies');
     }
 }
