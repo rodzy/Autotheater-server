@@ -36,4 +36,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Relations
+     */
+    public function role()
+    {
+        return $this->belongsTo('App\Role', 'foreign_key', 'other_key');
+    }
+    public function reservations()
+    {
+        return $this->hasMany('App\Reservation', 'foreign_key', 'local_key');
+    }
 }
