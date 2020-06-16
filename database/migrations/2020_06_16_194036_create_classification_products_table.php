@@ -14,7 +14,9 @@ class CreateClassificationProductsTable extends Migration
     public function up()
     {
         Schema::create('classification_products', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('type');
+            $table->text('description');
             $table->timestamps();
         });
     }
