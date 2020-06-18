@@ -15,6 +15,7 @@ class BillboardTicket extends Migration
     {
         Schema::create('billboard_ticket', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('quantity');
             $table->unsignedInteger('ticket_id');
             $table->unsignedInteger('billboard_id');
             $table->timestamps();

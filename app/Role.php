@@ -8,6 +8,6 @@ class Role extends Model
 {
     public function users()
     {
-        return $this->hasMany('App\User', 'foreign_key', 'local_key');
+        return $this->hasMany('App\User');
     }
 }

@@ -15,6 +15,7 @@ class ProductRating extends Migration
     {
         Schema::create('product_rating', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('rating');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('rating_id');
             $table->timestamps();

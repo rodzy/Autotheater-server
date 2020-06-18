@@ -15,6 +15,7 @@ class LikeMovie extends Migration
     {
         Schema::create('like_movie', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('type');
             $table->unsignedInteger('like_id');
             $table->unsignedInteger('movie_id');
             $table->timestamps();
