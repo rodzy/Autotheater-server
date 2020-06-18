@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class BillboardTicket extends Migration
+class ReservationTicket extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class BillboardTicket extends Migration
      */
     public function up()
     {
-        Schema::create('billboard_ticket', function (Blueprint $table) {
+        Schema::create('reservation_ticket', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quantity');
+            $table->unsignedInteger('reservation_id');
             $table->unsignedInteger('ticket_id');
-            $table->unsignedInteger('billboard_id');
             $table->timestamps();
             /**
              * Keys
              */
+            $table->foreign('reservation_id')->references('id')->on('reservations');
             $table->foreign('ticket_id')->references('id')->on('tickets');
-            $table->foreign('billboard_id')->references('id')->on('billboards');
         });
     }
 
@@ -34,10 +33,10 @@ class BillboardTicket extends Migration
      */
     public function down()
     {
-        Schema::table('billboard_ticket', function (Blueprint $table) {
-            $table->dropForeign('billboard_ticket_ticket_id_foreign');
-            $table->dropForeign('billboard_ticket_billboard_id_foreign');
+        Schema::table('reservation_ticket', function (Blueprint $table) {
+            $table->dropForeign('reservation_ticket_reservation_id_foreign');
+            $table->dropForeign('reservation_ticket_ticket_id_foreign');
         });
-        Schema::dropIfExists('billboard_ticket');
+        Schema::dropIfExists('reservation_ticket');
     }
 }

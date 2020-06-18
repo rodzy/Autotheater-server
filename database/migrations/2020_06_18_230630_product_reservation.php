@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRatingsTable extends Migration
+class ProductReservation extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateRatingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ratings', function (Blueprint $table) {
+        Schema::create('product_reservation', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('reservation_id');
             $table->unsignedInteger('product_id');
             $table->timestamps();
-            /**
-             * Keys
-             */
-            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
@@ -31,9 +28,10 @@ class CreateRatingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('ratings', function (Blueprint $table) {
-            $table->dropForeign('rating_product_id_foreign');
+        Schema::table('product_reservation', function (Blueprint $table) {
+            $table->dropForeign('product_reservation_reservation_id_foreign');
+            $table->dropForeign('product_reservation_product_id_foreign');
         });
-        Schema::dropIfExists('ratings');
+        Schema::dropIfExists('product_reservation');
     }
 }
