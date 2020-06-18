@@ -13,7 +13,17 @@ class GenreMovie extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('genre_movie', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('genre_id');
+            $table->unsignedInteger('movie_id');
+            $table->timestamps();
+            /**
+             * Keys
+             */
+            $table->foreign('genre_id')->references('id')->on('genres');
+            $table->foreign('movie_id')->references('id')->on('movies');
+        });
     }
 
     /**
@@ -23,6 +33,10 @@ class GenreMovie extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('genre_movie', function (Blueprint $table) {
+            $table->dropForeign('genre_movie_genre_id_foreign');
+            $table->dropForeign('genre_movie_movie_id_foreign');
+        });
+        Schema::dropIfExists('genre_movie');
     }
 }

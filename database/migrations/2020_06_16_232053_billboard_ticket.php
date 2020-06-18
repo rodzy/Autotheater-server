@@ -13,7 +13,17 @@ class BillboardTicket extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('billboard_ticket', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('ticket_id');
+            $table->unsignedInteger('billboard_id');
+            $table->timestamps();
+            /**
+             * Keys
+             */
+            $table->foreign('ticket_id')->references('id')->on('tickets');
+            $table->foreign('billboard_id')->references('id')->on('billboards');
+        });
     }
 
     /**
@@ -23,6 +33,10 @@ class BillboardTicket extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('billboard_ticket', function (Blueprint $table) {
+            $table->dropForeign('billboard_ticket_ticket_id_foreign');
+            $table->dropForeign('billboard_ticket_billboard_id_foreign');
+        });
+        Schema::dropIfExists('billboard_ticket');
     }
 }
