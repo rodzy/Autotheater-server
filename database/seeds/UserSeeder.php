@@ -11,6 +11,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $user = \App\User::create([
+            'name' => 'administrator',
+            'email' => 'admin@autotheater.co',
+            'password' => bcrypt('123456'),
+            'rol_id' => 1
+        ]);
+        $user->save();
     }
 }
