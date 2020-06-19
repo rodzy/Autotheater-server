@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
-    public function billboards()
+    public function reservations()
     {
-        return $this->belongsToMany('App\Billboard');
+        return $this->belongsToMany('App\Reservation');
     }
 }

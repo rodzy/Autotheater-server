@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rating extends Model
 {
-    public function products()
+    public function product()
     {
-        return $this->belongsToMany('App\Product');
+        return $this->belongsTo('App\Product');
     }
 }
