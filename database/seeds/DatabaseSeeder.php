@@ -1,5 +1,8 @@
 <?php
 
+use App\Product;
+use App\ProductType;
+use App\Rating;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,6 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(GenreSeeder::class);
+        $this->call(ClassificationSeeder::class);
+        $this->call(MovieSeeder::class);
+        $this->call(LikeSeeder::class);
+        $this->call(ProductType::class);
+        $this->call(ClassificationProductSeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(RatingSeeder::class);
+        $this->call(TicketSeeder::class);
+        $this->call(LocationSeeder::class);
+        $this->call(BillboardSeeder::class);
+        $this->call(ReservationSeeder::class);
     }
 }
