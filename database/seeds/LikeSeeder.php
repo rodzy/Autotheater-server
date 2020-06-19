@@ -11,6 +11,8 @@ class LikeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $like=new \App\Like();
+        $like->movie_id=1;
+        $like->save();
     }
 }

@@ -11,6 +11,14 @@ class LocationSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $location=new App\Location();
+        $location->location='Alajuela - East';
+        $location->description='300mts east from the Central Park, next to Banco Nacional';
+        $location->save();
+
+        $location=new App\Location();
+        $location->location='Alajuela - West';
+        $location->description='From La Agonía Church, 500mts north contiguous to Pizzería La Piña';
+        $location->save();
     }
 }

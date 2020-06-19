@@ -11,6 +11,8 @@ class RatingSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $rating=new App\Rating();
+        $rating->product_id=1;
+        $rating->save();
     }
 }
