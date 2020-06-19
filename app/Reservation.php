@@ -13,4 +13,8 @@ class Reservation extends Model
     {
         return $this->belongsTo('App\User', 'foreign_key', 'other_key');
     }
+    public function tickets()
+    {
+        return $this->belongsToMany('App\Ticket');
+    }
 }

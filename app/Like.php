@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Like extends Model
 {
-    public function movies()
+    public function movie()
     {
-        return $this->belongsToMany('App\Movie');
+        return $this->belongsTo('App\Movie');
     }
 }

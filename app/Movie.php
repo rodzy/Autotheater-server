@@ -13,7 +13,7 @@ class Movie extends Model
 
     public function likes()
     {
-        return $this->belongsToMany('App\Like');
+        return $this->hasMany('App\Like');
     }
 
     public function billboard()
