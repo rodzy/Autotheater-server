@@ -17,6 +17,7 @@ class CreateClassificationProductsTable extends Migration
             $table->increments('id');
             $table->string('type');
             $table->text('description');
+            $table->decimal('pricetotal');
             $table->timestamps();
         });
     }
