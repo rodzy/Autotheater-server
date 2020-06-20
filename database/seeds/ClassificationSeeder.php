@@ -23,7 +23,7 @@ class ClassificationSeeder extends Seeder
 
         $classification=new App\Classification();
         $classification->type='M';
-        $classification->descrip0tion='Recommended for mature audiences';
+        $classification->description='Recommended for mature audiences';
         $classification->save();
 
         $classification=new App\Classification();

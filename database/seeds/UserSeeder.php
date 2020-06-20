@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
             'name' => 'administrator',
             'email' => 'admin@autotheater.co',
             'password' => bcrypt('123456'),
-            'rol_id' => 1
+            'role_id' => 1
         ]);
         $user->save();
     }

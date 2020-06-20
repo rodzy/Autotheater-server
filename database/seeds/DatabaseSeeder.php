@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ClassificationSeeder::class);
         $this->call(MovieSeeder::class);
         $this->call(LikeSeeder::class);
-        $this->call(ProductType::class);
+        $this->call(ProductTypeSeeder::class);
         $this->call(ClassificationProductSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(RatingSeeder::class);
