@@ -40,10 +40,12 @@ class User extends Authenticatable
     /**
      * Relations
      */
+
     public function role()
     {
         return $this->belongsTo('App\Role', 'foreign_key', 'other_key');
     }
+
     public function reservations()
     {
         return $this->hasMany('App\Reservation', 'foreign_key', 'local_key');
