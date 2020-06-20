@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('jwt.auth', ['only' => ['all']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,13 @@ class MovieController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $movies=Movie::where('status',true)->orderBy('name','description')->withCount('likes')->get();
+            $response=[$movies];
+            return response()->json($response,200);
+        }catch(\Exception $e){
+            return response()->json($e->getMessage(),422);
+        }
     }
 
     /**
