@@ -19,12 +19,16 @@ class MovieController extends Controller
      */
     public function index()
     {
-        try{
-            $movies=Movie::where('status',true)->orderBy('name','description')->withCount('likes')->get();
-            $response=[$movies];
-            return response()->json($response,200);
-        }catch(\Exception $e){
-            return response()->json($e->getMessage(),422);
+        try {
+            $movies = Movie::select('movies.name', 'movies.sinopsis', 'classifications.type', 'classifications.description')
+                ->join('classifications', 'movies.classification_id', '=', 'classifications.id')
+                ->where('movies.status','=',true)
+                ->orderBy('movies.name')
+                ->get();
+            $response = [$movies];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
         }
     }
 
@@ -36,6 +40,16 @@ class MovieController extends Controller
     public function create()
     {
         //
+    }
+
+    /**
+     * Show all the movies and classifications.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function all()
+    {
+
     }
 
     /**
@@ -52,12 +66,21 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Movie  $movie
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Movie $movie)
+    public function show($id)
     {
-        //
+        //@todo: Dont forget to add where before production
+        // try {
+        //     $movies = Movie::select('movies.name', 'movies.sinopsis', 'classifications.type', 'classifications.description')
+        //         ->join('classifications', 'movies.classification_id', '=', 'classifications.id')
+        //         ->get();
+        //     $response = [$movies];
+        //     return response()->json($response, 200);
+        // } catch (\Exception $e) {
+        //     return response()->json($e->getMessage(), 422);
+        // }
     }
 
     /**
