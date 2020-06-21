@@ -28,6 +28,7 @@ class AuthController extends Controller
         try {
             $this->validate($request, [
                 'name' => 'required',
+                'lastname' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:6'
             ]);
@@ -37,6 +38,7 @@ class AuthController extends Controller
         try {
             $user = new User();
             $user->name = $request->name;
+            $user->lastname = $request->lastname;
             $user->email = $request->email;
             $user->password = bcrypt($request->password);
             $user->role_id = $request->role_id;

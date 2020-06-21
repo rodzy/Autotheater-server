@@ -59,7 +59,28 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'sinopsis' => 'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(), 422);
+        }
+        try {
+            $movie = new Movie();
+            $movie->name = $request->name;
+            $movie->sinopsis = $request->sinopsis;
+            $movie->classification_id = $request->classification_id;
+            $movie->save();
+            $response = ([
+                'message' => 'New movie registered succesfully',
+                'data' => $movie,
+            ]);
+            return response()->json($response, 201);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
