@@ -31,4 +31,14 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('all', 'MovieController@all');
         Route::get('/{id}', 'MovieController@show');
     });
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('', 'ProductController@index');
+        Route::get('/{id}', 'ProductController@show');
+    });
+    Route::group(['prefix' => 'locations'], function () {
+        Route::get('', 'LocationController@index');
+    });
+    Route::group(['prefix' => 'genres'], function () {
+        Route::get('', 'GenreController@index');
+    });
 });

@@ -14,7 +14,17 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $products = Product::where('status', true)
+                ->orderBy('name', 'desc')
+                ->withCount('ratings')
+                ->with(["classification_products"])
+                ->get();
+            $response = [$products];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
@@ -41,12 +51,20 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        try {
+            $products=Product::where('id',$id)
+            ->with(["classification_products"])
+            ->first();
+            $response=[$products];
+            return response()->json($response,200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(),422);
+        }
     }
 
     /**
