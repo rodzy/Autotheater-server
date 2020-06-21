@@ -20,10 +20,10 @@ class MovieController extends Controller
     public function index()
     {
         try {
-            $movies = Movie::select('movies.name', 'movies.sinopsis', 'classifications.type', 'classifications.description')
-                ->join('classifications', 'movies.classification_id', '=', 'classifications.id')
-                ->where('movies.status','=',true)
-                ->orderBy('movies.name')
+            $movies = Movie::where('status', true)
+                ->orderBy('name', 'desc')
+                ->withCount('likes')
+                ->with(["genres"])
                 ->get();
             $response = [$movies];
             return response()->json($response, 200);
@@ -49,7 +49,6 @@ class MovieController extends Controller
      */
     public function all()
     {
-
     }
 
     /**
@@ -71,16 +70,15 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        //@todo: Dont forget to add where before production
-        // try {
-        //     $movies = Movie::select('movies.name', 'movies.sinopsis', 'classifications.type', 'classifications.description')
-        //         ->join('classifications', 'movies.classification_id', '=', 'classifications.id')
-        //         ->get();
-        //     $response = [$movies];
-        //     return response()->json($response, 200);
-        // } catch (\Exception $e) {
-        //     return response()->json($e->getMessage(), 422);
-        // }
+        try {
+            $movies = Movie::where('id', $id)
+                ->with(["genres"])
+                ->first();
+            $response = [$movies];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
