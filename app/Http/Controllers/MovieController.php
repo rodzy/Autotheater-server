@@ -33,16 +33,6 @@ class MovieController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Show all the movies and classifications.
      *
      * @return \Illuminate\Http\Response
@@ -78,7 +68,7 @@ class MovieController extends Controller
                 $movie->genres()->sync($request->genre_id==null?[]:$request->get('genre_id'));
             }
             $response = ([
-                'message' => 'New movie registered succesfully',
+                'message' => 'New movie registered successfully',
                 'data' => $movie,
             ]);
             return response()->json($response, 201);

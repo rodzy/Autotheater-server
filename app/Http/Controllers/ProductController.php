@@ -45,7 +45,35 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'description' => 'required',
+                'price' => 'required',
+                'type_id' => 'required'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(), 422);
+        }
+        try {
+            $product = new Product();
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->status = true;
+            $product->type_id = $request->type_id;
+            $product->save();
+            if ($request->get('classificationproducts_id')) {
+                $product->classificationproducts()->sync($request->classificationproducts_id == null ? [] : $request->get('classificationproducts_id'));
+            }
+            $response=([
+                'message'=>'New product registered successfully',
+                'data'=>$product,
+            ]);
+            return response()->json($response,201);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(),422);
+        }
     }
 
     /**
@@ -57,13 +85,13 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $products=Product::where('id',$id)
-            ->with(["classification_products"])
-            ->first();
-            $response=[$products];
-            return response()->json($response,200);
+            $products = Product::where('id', $id)
+                ->with(["classification_products"])
+                ->first();
+            $response = [$products];
+            return response()->json($response, 200);
         } catch (\Exception $e) {
-            return response()->json($e->getMessage(),422);
+            return response()->json($e->getMessage(), 422);
         }
     }
 
