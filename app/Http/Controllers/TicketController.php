@@ -14,7 +14,15 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $tickets = Ticket::where('active', true)
+                ->orderBy('pricing', 'asc')
+                ->get();
+            $response = [$tickets];
+            return  response()->json($response, 200);
+        } catch (\Exception $e) {
+            return  response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
