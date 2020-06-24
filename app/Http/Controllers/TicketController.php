@@ -26,16 +26,6 @@ class TicketController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -43,18 +33,47 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'description' => 'required',
+                'pricing' => 'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(), 422);
+        }
+        try {
+            $ticket = new Ticket();
+            $ticket->name = $request->name;
+            $ticket->description = $request->description;
+            $ticket->pricing = $request->pricing;
+            $ticket->save();
+            $response=([
+                'message'=>'New ticket registered successfully',
+                'data'=>$ticket
+            ]);
+            return response()->json($response,201);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(),422);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function show($id)
     {
-        //
+        try {
+            $tickets=Ticket::where('id',$id)
+            ->first();
+            $response=[$tickets];
+            return response()->json($response,200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(),422);
+        }
     }
 
     /**
