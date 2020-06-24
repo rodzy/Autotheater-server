@@ -28,11 +28,12 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('me', 'AuthController@me');
         });
         Route::get('', 'MovieController@index');
-        Route::get('all', 'MovieController@all');
+        Route::post('/store', 'MovieController@store');
         Route::get('/{id}', 'MovieController@show');
     });
     Route::group(['prefix' => 'products'], function () {
         Route::get('', 'ProductController@index');
+        Route::post('/store', 'ProductController@store');
         Route::get('/{id}', 'ProductController@show');
     });
     Route::group(['prefix' => 'locations'], function () {
@@ -40,5 +41,11 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group(['prefix' => 'genres'], function () {
         Route::get('', 'GenreController@index');
+    });
+    Route::group(['prefix' => 'tickets'], function () {
+        Route::get('', 'TicketController@index');
+        Route::post('/store', 'TicketController@store');
+        Route::get('/{id}', 'TicketController@show');
+
     });
 });
