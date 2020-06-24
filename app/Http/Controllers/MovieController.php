@@ -63,6 +63,7 @@ class MovieController extends Controller
             $this->validate($request, [
                 'name' => 'required',
                 'sinopsis' => 'required',
+                'classification_id' => 'required'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
@@ -73,6 +74,9 @@ class MovieController extends Controller
             $movie->sinopsis = $request->sinopsis;
             $movie->classification_id = $request->classification_id;
             $movie->save();
+            if ($request->get('genre_id')) {
+                $movie->genres()->sync($request->genre_id==null?[]:$request->get('genre_id'));
+            }
             $response = ([
                 'message' => 'New movie registered succesfully',
                 'data' => $movie,
