@@ -17,6 +17,8 @@ class CreateMoviesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('sinopsis');
+            $table->text('image');
+            $table->text('banner');
             $table->boolean('status');
             $table->unsignedInteger('classification_id');
             $table->timestamps();
