@@ -20,7 +20,7 @@ class ProductController extends Controller
                 ->withCount('ratings')
                 ->with(["classification_products"])
                 ->get();
-            $response = [$products];
+            $response = $products;
             return response()->json($response, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 422);
@@ -88,7 +88,7 @@ class ProductController extends Controller
             $products = Product::where('id', $id)
                 ->with(["classification_products"])
                 ->first();
-            $response = [$products];
+            $response = $products;
             return response()->json($response, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 422);

@@ -18,7 +18,7 @@ class TicketController extends Controller
             $tickets = Ticket::where('active', true)
                 ->orderBy('pricing', 'asc')
                 ->get();
-            $response = [$tickets];
+            $response = $tickets;
             return  response()->json($response, 200);
         } catch (\Exception $e) {
             return  response()->json($e->getMessage(), 422);
@@ -69,7 +69,7 @@ class TicketController extends Controller
         try {
             $tickets=Ticket::where('id',$id)
             ->first();
-            $response=[$tickets];
+            $response=$tickets;
             return response()->json($response,200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(),422);

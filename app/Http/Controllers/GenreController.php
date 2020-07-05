@@ -16,7 +16,7 @@ class GenreController extends Controller
     {
         try {
             $genres = Genre::orderBy('name', 'asc')->get();
-            $response = [$genres];
+            $response = $genres;
             return response()->json($response, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 422);

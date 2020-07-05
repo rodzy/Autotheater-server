@@ -25,7 +25,7 @@ class MovieController extends Controller
                 ->withCount('likes')
                 ->with(["genres"])
                 ->get();
-            $response = [$movies];
+            $response = $movies;
             return response()->json($response, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 422);
@@ -89,7 +89,7 @@ class MovieController extends Controller
             $movies = Movie::where('id', $id)
                 ->with(["genres"])
                 ->first();
-            $response = [$movies];
+            $response = $movies;
             return response()->json($response, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 422);
