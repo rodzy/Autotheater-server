@@ -18,7 +18,7 @@ class ProductController extends Controller
             $products = Product::where('status', true)
                 ->orderBy('name', 'desc')
                 ->withCount('ratings')
-                ->with(["classification_products"])
+                ->with(["classificationproducts"])
                 ->get();
             $response = $products;
             return response()->json($response, 200);
@@ -86,7 +86,7 @@ class ProductController extends Controller
     {
         try {
             $products = Product::where('id', $id)
-                ->with(["classification_products"])
+                ->with(["classificationproducts"])
                 ->first();
             $response = $products;
             return response()->json($response, 200);
