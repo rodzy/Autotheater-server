@@ -15,7 +15,7 @@ class LocationController extends Controller
     public function index()
     {
         try {
-            $locations = Location::orderBy('name', 'asc')->get();
+            $locations = Location::orderBy('location', 'asc')->get();
             $response = $locations;
             return response()->json($response, 200);
         } catch (\Exception $e) {
