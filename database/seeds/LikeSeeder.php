@@ -14,5 +14,33 @@ class LikeSeeder extends Seeder
         $like=new \App\Like();
         $like->movie_id=1;
         $like->save();
+
+        $like=new \App\Like();
+        $like->movie_id=1;
+        $like->save();
+
+        $like=new \App\Like();
+        $like->movie_id=2;
+        $like->save();
+
+        $like=new \App\Like();
+        $like->movie_id=3;
+        $like->save();
+
+        $like=new \App\Like();
+        $like->movie_id=3;
+        $like->save();
+
+        $like=new \App\Like();
+        $like->movie_id=4;
+        $like->save();
+
+        $like=new \App\Like();
+        $like->movie_id=1;
+        $like->save();
+
+        $like=new \App\Like();
+        $like->movie_id=7;
+        $like->save();
     }
 }

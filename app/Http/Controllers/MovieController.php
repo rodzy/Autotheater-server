@@ -33,15 +33,6 @@ class MovieController extends Controller
     }
 
     /**
-     * Show all the movies and classifications.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function all()
-    {
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -75,6 +66,15 @@ class MovieController extends Controller
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 422);
         }
+    }
+
+    /**
+     * Display the most popular movies
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function popular(){
+
     }
 
     /**

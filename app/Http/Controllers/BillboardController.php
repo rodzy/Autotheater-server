@@ -14,7 +14,17 @@ class BillboardController extends Controller
      */
     public function index()
     {
-        //
+        // try {
+        //     $billboard = Billboard::where('status', true)
+        //         ->orderBy('name', 'desc')
+        //         ->withCount('likes')
+        //         ->with(["genres"])
+        //         ->get();
+        //     $response = $billboard;
+        //     return response()->json($response, 200);
+        // } catch (\Exception $e) {
+        //     return response()->json($e->getMessage(), 422);
+        // }
     }
 
     /**

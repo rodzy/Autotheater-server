@@ -29,8 +29,10 @@ Route::group(['prefix' => 'v1'], function () {
         });
         Route::get('', 'MovieController@index');
         Route::post('/store', 'MovieController@store');
+        Route::get('/popular','MovieController@popular');
         Route::get('/{id}', 'MovieController@show');
     });
+
     Route::group(['prefix' => 'products'], function () {
         Route::get('', 'ProductController@index');
         Route::post('/store', 'ProductController@store');
@@ -38,6 +40,9 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group(['prefix' => 'locations'], function () {
         Route::get('', 'LocationController@index');
+    });
+    Route::group(['prefix' => 'likes'], function () {
+        Route::get('', 'LikeController@index');
     });
     Route::group(['prefix' => 'genres'], function () {
         Route::get('', 'GenreController@index');
