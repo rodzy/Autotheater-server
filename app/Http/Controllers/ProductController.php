@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
         try {
             $products = Product::where('status', true)
-                ->orderBy('name', 'desc')
+                ->orderBy('name', 'asc')
                 ->withCount('ratings')
                 ->with(["classificationproducts"])
                 ->get();

@@ -21,7 +21,7 @@ class MovieController extends Controller
     {
         try {
             $movies = Movie::where('status', true)
-                ->orderBy('name', 'desc')
+                ->orderBy('name', 'asc')
                 ->withCount('likes')
                 ->with(["genres"])
                 ->get();
