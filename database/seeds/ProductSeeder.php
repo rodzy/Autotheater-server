@@ -13,7 +13,7 @@ class ProductSeeder extends Seeder
     {
         $product=new App\Product();
         $product->name='Salty Pop Corn';
-        $product->description='';
+        $product->description='The classic, just a little salt and happiness';
         $product->price=5;
         $product->status=true;
         $product->type_id=1;
@@ -22,7 +22,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='Butter Pop Corn';
-        $product->description='';
+        $product->description='Melty, buttery and great for sharing';
         $product->price=5;
         $product->status=true;
         $product->type_id=1;
@@ -31,7 +31,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='Caramelized Pop Corn';
-        $product->description='';
+        $product->description='Super sweet pop corn, for the sweet ones';
         $product->price=5;
         $product->status=true;
         $product->type_id=1;
@@ -40,7 +40,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='Coca-cola soda';
-        $product->description='';
+        $product->description='The classical coke';
         $product->price=5;
         $product->status=true;
         $product->type_id=2;
@@ -49,7 +49,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='7 UP soda';
-        $product->description='';
+        $product->description='A light hit of lime and the punch of sweet lime';
         $product->price=5;
         $product->status=true;
         $product->type_id=2;
@@ -58,7 +58,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='Natural shake';
-        $product->description='';
+        $product->description='Shakes, from fruit extract';
         $product->price=5;
         $product->status=true;
         $product->type_id=2;
@@ -67,7 +67,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='Hot dog';
-        $product->description='';
+        $product->description='The greatest dog alive filled with cheese, this includes onions, peppers and pickles';
         $product->price=5;
         $product->status=true;
         $product->type_id=3;
@@ -76,7 +76,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='Cheese burger';
-        $product->description='';
+        $product->description='Freshly cut ingredients and the best cut of beef filled with cheese, it`s awesome';
         $product->price=5;
         $product->status=true;
         $product->type_id=3;
@@ -85,7 +85,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='Spicy Nachos';
-        $product->description='';
+        $product->description='Mexican style nachos, with habbanero and toluca pepper';
         $product->price=5;
         $product->status=true;
         $product->type_id=3;
@@ -94,7 +94,7 @@ class ProductSeeder extends Seeder
 
         $product=new App\Product();
         $product->name='Chocolate energy bar';
-        $product->description='';
+        $product->description='Just a classic choco bar to get your energy ready' ;
         $product->price=5;
         $product->status=true;
         $product->type_id=3;

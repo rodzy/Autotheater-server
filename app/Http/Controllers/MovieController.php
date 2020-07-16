@@ -69,15 +69,6 @@ class MovieController extends Controller
     }
 
     /**
-     * Display the most popular movies
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function popular(){
-
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
