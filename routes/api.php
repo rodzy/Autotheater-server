@@ -28,16 +28,16 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('me', 'AuthController@me');
         });
         Route::get('', 'MovieController@index');
-        Route::post('/store', 'MovieController@store');
-        Route::get('/popular','MovieController@popular');
+        Route::post('', 'MovieController@store');
         Route::get('/{id}', 'MovieController@show');
+        Route::patch('/{id}', 'MovieController@update');
     });
 
     Route::group(['prefix' => 'products'], function () {
         Route::get('', 'ProductController@index');
-        Route::post('/store', 'ProductController@store');
+        Route::post('', 'ProductController@store');
         Route::get('/{id}', 'ProductController@show');
-        Route::patch('/{id}', 'ProductController@show');
+        Route::patch('/{id}', 'ProductController@update');
     });
     Route::group(['prefix' => 'locations'], function () {
         Route::get('', 'LocationController@index');
@@ -50,8 +50,7 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group(['prefix' => 'tickets'], function () {
         Route::get('', 'TicketController@index');
-        Route::post('/store', 'TicketController@store');
+        Route::post('', 'TicketController@store');
         Route::get('/{id}', 'TicketController@show');
-
     });
 });
