@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Movie;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class MovieController extends Controller
 {
@@ -43,29 +44,32 @@ class MovieController extends Controller
         try {
             $this->validate($request, [
                 'name' => 'required',
-                'sinopsis' => 'required',
-                'classification_id' => 'required'
+                'sinopsis' => 'required|min:10',
+                'image' => 'required',
+                'banner' => 'required',
+                'classification_id' => 'required',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        try {
-            $movie = new Movie();
-            $movie->name = $request->name;
-            $movie->sinopsis = $request->sinopsis;
-            $movie->classification_id = $request->classification_id;
-            $movie->save();
-            if ($request->get('genre_id')) {
-                $movie->genres()->sync($request->genre_id == null ? [] : $request->get('genre_id'));
-            }
-            $response = ([
+        $movie = new Movie();
+        $movie->name = $request->input('name');
+        $movie->sinopsis = $request->input('sinopsis');
+        $movie->image = $request->input('image');
+        $movie->banner = $request->input('banner');
+        $movie->classification_id = $request->input('classification_id');
+        if ($movie->save()) {
+            $movie->genres()->sync($request->input('genres') == null ?
+                [] : $request->input('genres'));
+            $response = [
                 'message' => 'New movie registered successfully',
-                'data' => $movie,
-            ]);
+            ];
             return response()->json($response, 201);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 422);
         }
+        $response = [
+            'message' => 'Error: Cannot register the movie'
+        ];
+        return response()->json($response, 404);
     }
 
     /**
@@ -88,27 +92,45 @@ class MovieController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Movie  $movie
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Movie $movie)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Movie  $movie
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movie $movie)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'sinopsis' => 'required|min:10',
+                'image' => 'required',
+                'banner' => 'required',
+                'classification_id' => 'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(), 422);
+        }
+        $movie = Movie::find($id);
+        $movie->name = $request->input('name');
+        $movie->sinopsis = $request->input('sinopsis');
+        $movie->image = $request->input('image');
+        $movie->banner = $request->input('banner');
+        $movie->classification_id = $request->input('classification_id');
+        if ($movie->update()) {
+            $movie->input('genres')->sync($request->input('genres') == null ?
+                [] : $request->input('genres'));
+            $response = [
+                'message' => 'Movied updated successfully',
+            ];
+            return response()->json($response, 200);
+        }
+        $response = [
+            'message' => 'Error: Cannot update movie registry'
+        ];
+        return response()->json($response, 404);
     }
+
 
     /**
      * Remove the specified resource from storage.

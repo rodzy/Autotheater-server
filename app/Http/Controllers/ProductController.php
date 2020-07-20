@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth', ['only' => ['all']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -28,16 +32,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -55,25 +49,24 @@ class ProductController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        try {
-            $product = new Product();
-            $product->name = $request->name;
-            $product->description = $request->description;
-            $product->price = $request->price;
-            $product->status = true;
-            $product->type_id = $request->type_id;
-            $product->save();
-            if ($request->get('classificationproducts_id')) {
-                $product->classificationproducts()->sync($request->classificationproducts_id == null ? [] : $request->get('classificationproducts_id'));
-            }
-            $response=([
-                'message'=>'New product registered successfully',
-                'data'=>$product,
-            ]);
-            return response()->json($response,201);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(),422);
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->status = true;
+        $product->type_id = $request->input('type_id');
+        if ($product->save()) {
+            $product->classificationproducts()->sync($request->input('classificationproducts_id') == null ?
+                [] : $request->input('classificationproducts_id'));
+            $response = [
+                'message' => 'New product registered successfully',
+            ];
+            return response()->json($response, 201);
         }
+        $response = [
+            'message' => 'Error: Cannot register the product'
+        ];
+        return response()->json($response, 404);
     }
 
     /**
@@ -96,26 +89,42 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'description' => 'required',
+                'price' => 'required',
+                'type_id' => 'required'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(), 422);
+        }
+        $product = Product::find($id);
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->status = true;
+        $product->type_id = $request->input('type_id');
+        if ($product->update()) {
+            $product->classificationproducts()->sync($request->input('classificationproducts_id') == null ?
+                [] : $request->input('classificationproducts_id'));
+            $response = [
+                'message' => 'Product updated successfully',
+            ];
+            return response()->json($response, 200);
+        }
+        $response = [
+            'message' => 'Error: Cannot update product registry'
+        ];
+        return response()->json($response, 404);
     }
 
     /**
