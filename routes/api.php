@@ -37,6 +37,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('', 'ProductController@index');
         Route::post('/store', 'ProductController@store');
         Route::get('/{id}', 'ProductController@show');
+        Route::patch('/{id}', 'ProductController@show');
     });
     Route::group(['prefix' => 'locations'], function () {
         Route::get('', 'LocationController@index');

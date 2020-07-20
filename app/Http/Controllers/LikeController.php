@@ -3,83 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Like;
-use Illuminate\Http\Request;
+use App\Movie;
 
 class LikeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($id)
     {
-        //
-    }
+        $movie = Movie::with('likes')->findOrFail($id);
+        $like = new Like();
+        if ($movie->likes()->save($like)) {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Like $like)
-    {
-        //
-    }
+            return response()->json('Movie liked!', 201);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Like $like)
-    {
-        //
-    }
+        $response = [
+            'msg' => 'Cannot like the movie'
+        ];
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Like $like)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Like  $like
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Like $like)
-    {
-        //
+        return response()->json($response, 404);
     }
 }
