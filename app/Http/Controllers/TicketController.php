@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ticket;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TicketController extends Controller
 {
@@ -39,6 +40,9 @@ class TicketController extends Controller
                 'description' => 'required',
                 'pricing' => 'required',
             ]);
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['message' => 'User not authenticated'], 404);
+            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }

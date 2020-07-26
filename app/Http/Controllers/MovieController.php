@@ -49,6 +49,9 @@ class MovieController extends Controller
                 'banner' => 'required',
                 'classification_id' => 'required',
             ]);
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['message' => 'User not authenticated'], 404);
+            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
@@ -108,6 +111,9 @@ class MovieController extends Controller
                 'banner' => 'required',
                 'classification_id' => 'required',
             ]);
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['message' => 'User not authenticated'], 404);
+            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }

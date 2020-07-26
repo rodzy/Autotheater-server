@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ProductController extends Controller
 {
@@ -46,6 +47,9 @@ class ProductController extends Controller
                 'price' => 'required',
                 'type_id' => 'required'
             ]);
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['message' => 'User not authenticated'], 404);
+            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
@@ -104,6 +108,9 @@ class ProductController extends Controller
                 'price' => 'required',
                 'type_id' => 'required'
             ]);
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['message' => 'User not authenticated'], 404);
+            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }

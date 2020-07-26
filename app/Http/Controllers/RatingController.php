@@ -23,7 +23,7 @@ class RatingController extends Controller
         }
 
         $response = [
-            'msg' => 'Cannot like the movie'
+            'message' => 'Cannot like the movie'
         ];
 
         return response()->json($response, 404);
