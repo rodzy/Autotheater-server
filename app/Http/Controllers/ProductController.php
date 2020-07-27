@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['all']]);
+        $this->middleware('jwt.auth', ['only' => ['store','update']]);
     }
     /**
      * Display a listing of the resource.

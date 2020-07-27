@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->decimal('price');
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->unsignedInteger('type_id');
             $table->timestamps();
             /**

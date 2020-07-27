@@ -8,6 +8,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TicketController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth', ['only' => ['store','update']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -95,12 +99,43 @@ class TicketController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ticket  $ticket
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'sinopsis' => 'required|min:10',
+                'image' => 'required',
+                'banner' => 'required',
+                'classification_id' => 'required',
+            ]);
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['message' => 'User not authenticated'], 404);
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(), 422);
+        }
+        $ticket = Ticket::find($id);
+        $ticket->name = $request->input('name');
+        $ticket->sinopsis = $request->input('sinopsis');
+        $ticket->image = $request->input('image');
+        $ticket->banner = $request->input('banner');
+        $ticket->classification_id = $request->input('classification_id');
+        if ($ticket->update()) {
+            $ticket->input('genres')->sync($request->input('genres') == null ?
+                [] : $request->input('genres'));
+            $response = [
+                'message' => 'Ticket updated successfully',
+            ];
+            return response()->json($response, 200);
+        }
+        $response = [
+            'message' => 'Error: Cannot update ticket registry'
+        ];
+        return response()->json($response, 404);
     }
 
     /**
