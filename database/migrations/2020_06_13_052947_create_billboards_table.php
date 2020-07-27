@@ -17,7 +17,7 @@ class CreateBillboardsTable extends Migration
             $table->increments('id');
             $table->date('date_now');
             $table->date('show_date');
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->integer('capacity');
             $table->unsignedInteger('movie_id');
             $table->unsignedInteger('location_id');

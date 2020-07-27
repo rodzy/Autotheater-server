@@ -107,10 +107,8 @@ class TicketController extends Controller
         try {
             $this->validate($request, [
                 'name' => 'required',
-                'sinopsis' => 'required|min:10',
-                'image' => 'required',
-                'banner' => 'required',
-                'classification_id' => 'required',
+                'description' => 'required',
+                'pricing' => 'required',
             ]);
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['message' => 'User not authenticated'], 404);
@@ -120,10 +118,8 @@ class TicketController extends Controller
         }
         $ticket = Ticket::find($id);
         $ticket->name = $request->input('name');
-        $ticket->sinopsis = $request->input('sinopsis');
-        $ticket->image = $request->input('image');
-        $ticket->banner = $request->input('banner');
-        $ticket->classification_id = $request->input('classification_id');
+        $ticket->description = $request->input('description');
+        $ticket->pricing = $request->input('pricing');
         if ($ticket->update()) {
             $ticket->input('genres')->sync($request->input('genres') == null ?
                 [] : $request->input('genres'));
@@ -138,14 +134,15 @@ class TicketController extends Controller
         return response()->json($response, 404);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ticket $ticket)
+    public function responseErrors($errors, $statusHTML)
     {
-        //
+        $transformed = [];
+        foreach ($errors as $field => $message) {
+            $transformed[] = [
+                'field' => $field,
+                'message' => $message[0]
+            ];
+        }
+        return response()->json(['errors' => $transformed], $statusHTML);
     }
 }

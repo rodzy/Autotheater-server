@@ -138,14 +138,15 @@ class MovieController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Movie  $movie
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Movie $movie)
+    public function responseErrors($errors, $statusHTML)
     {
-        //
+        $transformed = [];
+        foreach ($errors as $field => $message) {
+            $transformed[] = [
+                'field' => $field,
+                'message' => $message[0]
+            ];
+        }
+        return response()->json(['errors' => $transformed], $statusHTML);
     }
 }

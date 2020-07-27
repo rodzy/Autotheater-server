@@ -134,14 +134,15 @@ class ProductController extends Controller
         return response()->json($response, 404);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product)
+    public function responseErrors($errors, $statusHTML)
     {
-        //
+        $transformed = [];
+        foreach ($errors as $field => $message) {
+            $transformed[] = [
+                'field' => $field,
+                'message' => $message[0]
+            ];
+        }
+        return response()->json(['errors' => $transformed], $statusHTML);
     }
 }

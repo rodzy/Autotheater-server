@@ -18,7 +18,7 @@ class CreateReservationsTable extends Migration
             $table->date('date_now');
             $table->decimal('tax');
             $table->decimal('total');
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->unsignedInteger('billboard_id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('product_id');

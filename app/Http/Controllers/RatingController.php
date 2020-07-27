@@ -15,17 +15,14 @@ class RatingController extends Controller
      */
     public function store($id)
     {
-        $product = Product::with('likes')->findOrFail($id);
+        $product = Product::with('ratings')->findOrFail($id);
         $rating = new Rating();
         if ($product->ratings()->save($rating)) {
-
             return response()->json('Product succesfully rated!', 201);
         }
-
         $response = [
-            'message' => 'Cannot like the movie'
+            'message' => 'Cannot like the product'
         ];
-
         return response()->json($response, 404);
     }
 }

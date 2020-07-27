@@ -18,14 +18,11 @@ class LikeController extends Controller
         $movie = Movie::with('likes')->findOrFail($id);
         $like = new Like();
         if ($movie->likes()->save($like)) {
-
             return response()->json('Movie liked!', 201);
         }
-
         $response = [
             'msg' => 'Cannot like the movie'
         ];
-
         return response()->json($response, 404);
     }
 }
