@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['store','update']]);
+        $this->middleware('jwt.auth', ['only' => ['store', 'update']]);
     }
     /**
      * Display a listing of the resource.
@@ -47,29 +47,30 @@ class ProductController extends Controller
                 'price' => 'required',
                 'type_id' => 'required'
             ]);
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['message' => 'User not authenticated'], 404);
-            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        $product = new Product();
-        $product->name = $request->input('name');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
-        $product->status = true;
-        $product->type_id = $request->input('type_id');
-        if ($product->save()) {
-            $product->classificationproducts()->sync($request->input('classificationproducts_id') == null ?
-                [] : $request->input('classificationproducts_id'));
+        if (JWTAuth::parseToken()->authenticate()) {
+            $product = new Product();
+            $product->name = $request->input('name');
+            $product->description = $request->input('description');
+            $product->price = $request->input('price');
+            $product->status = true;
+            $product->type_id = $request->input('type_id');
+            if ($product->save()) {
+                $product->classificationproducts()->sync($request->input('classificationproducts_id') == null ?
+                    [] : $request->input('classificationproducts_id'));
+                $response = [
+                    'message' => 'New product registered successfully',
+                ];
+                return response()->json($response, 201);
+            }
             $response = [
-                'message' => 'New product registered successfully',
+                'message' => 'Error: Cannot register the product'
             ];
-            return response()->json($response, 201);
+        } else {
+            return response()->json(['message' => 'User not authenticated'], 404);
         }
-        $response = [
-            'message' => 'Error: Cannot register the product'
-        ];
         return response()->json($response, 404);
     }
 
@@ -108,29 +109,30 @@ class ProductController extends Controller
                 'price' => 'required',
                 'type_id' => 'required'
             ]);
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['message' => 'User not authenticated'], 404);
-            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        $product = Product::find($id);
-        $product->name = $request->input('name');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
-        $product->status = true;
-        $product->type_id = $request->input('type_id');
-        if ($product->update()) {
-            $product->classificationproducts()->sync($request->input('classificationproducts_id') == null ?
-                [] : $request->input('classificationproducts_id'));
+        if (JWTAuth::parseToken()->authenticate()) {
+            $product = Product::find($id);
+            $product->name = $request->input('name');
+            $product->description = $request->input('description');
+            $product->price = $request->input('price');
+            $product->status = true;
+            $product->type_id = $request->input('type_id');
+            if ($product->update()) {
+                $product->classificationproducts()->sync($request->input('classificationproducts_id') == null ?
+                    [] : $request->input('classificationproducts_id'));
+                $response = [
+                    'message' => 'Product updated successfully',
+                ];
+                return response()->json($response, 200);
+            }
             $response = [
-                'message' => 'Product updated successfully',
+                'message' => 'Error: Cannot update product registry'
             ];
-            return response()->json($response, 200);
+        } else {
+            return response()->json(['message' => 'Not authorized'], 404);
         }
-        $response = [
-            'message' => 'Error: Cannot update product registry'
-        ];
         return response()->json($response, 404);
     }
 

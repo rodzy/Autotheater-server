@@ -49,29 +49,30 @@ class MovieController extends Controller
                 'banner' => 'required',
                 'classification_id' => 'required',
             ]);
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['message' => 'User not authenticated'], 404);
-            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        $movie = new Movie();
-        $movie->name = $request->input('name');
-        $movie->sinopsis = $request->input('sinopsis');
-        $movie->image = $request->input('image');
-        $movie->banner = $request->input('banner');
-        $movie->classification_id = $request->input('classification_id');
-        if ($movie->save()) {
-            $movie->genres()->sync($request->input('genres') == null ?
+        if(JWTAuth::parseToken()->authenticate()){
+            $movie = new Movie();
+            $movie->name = $request->input('name');
+            $movie->sinopsis = $request->input('sinopsis');
+            $movie->image = $request->input('image');
+            $movie->banner = $request->input('banner');
+            $movie->classification_id = $request->input('classification_id');
+            if ($movie->save()) {
+                $movie->genres()->sync($request->input('genres') == null ?
                 [] : $request->input('genres'));
+                $response = [
+                    'message' => 'New movie registered successfully',
+                ];
+                return response()->json($response, 201);
+            }
             $response = [
-                'message' => 'New movie registered successfully',
+                'message' => 'Error: Cannot register the movie'
             ];
-            return response()->json($response, 201);
+        }else{
+            return response()->json(['message' => 'Not authorized'], 401);
         }
-        $response = [
-            'message' => 'Error: Cannot register the movie'
-        ];
         return response()->json($response, 404);
     }
 
@@ -111,29 +112,30 @@ class MovieController extends Controller
                 'banner' => 'required',
                 'classification_id' => 'required',
             ]);
-            // if (!$user = JWTAuth::parseToken()->authenticate()) {
-            //     return response()->json(['message' => 'User not authenticated'], 404);
-            // }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        $movie = Movie::find($id);
-        $movie->name = $request->input('name');
-        $movie->sinopsis = $request->input('sinopsis');
-        $movie->image = $request->input('image');
-        $movie->banner = $request->input('banner');
-        $movie->classification_id = $request->input('classification_id');
-        if ($movie->update()) {
-            $movie->genres()->sync($request->input('genres') == null ?
+        if(JWTAuth::parseToken()->authenticate()){
+            $movie = Movie::find($id);
+            $movie->name = $request->input('name');
+            $movie->sinopsis = $request->input('sinopsis');
+            $movie->image = $request->input('image');
+            $movie->banner = $request->input('banner');
+            $movie->classification_id = $request->input('classification_id');
+            if ($movie->update()) {
+                $movie->genres()->sync($request->input('genres') == null ?
                 [] : $request->input('genres'));
+                $response = [
+                    'message' => 'Movied updated successfully',
+                ];
+                return response()->json($response, 200);
+            }
             $response = [
-                'message' => 'Movied updated successfully',
+                'message' => 'Error: Cannot update movie registry'
             ];
-            return response()->json($response, 200);
+        }else{
+            return response()->json(['message' => 'Not authorized'], 401);
         }
-        $response = [
-            'message' => 'Error: Cannot update movie registry'
-        ];
         return response()->json($response, 404);
     }
 

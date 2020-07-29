@@ -19,14 +19,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1'], function () {
+    Route::group(['prefix' => 'auth'], function ($router) {
+        Route::post('register', 'AuthController@register');
+        Route::post('login', 'AuthController@login');
+        Route::post('logout', 'AuthController@logout');
+        Route::post('refresh', 'AuthController@refresh');
+        Route::post('me', 'AuthController@me');
+    });
     Route::group(['prefix' => 'movies'], function () {
-        Route::group(['prefix' => 'auth'], function ($router) {
-            Route::post('register', 'AuthController@register');
-            Route::post('login', 'AuthController@login');
-            Route::post('logout', 'AuthController@logout');
-            Route::post('refresh', 'AuthController@refresh');
-            Route::post('me', 'AuthController@me');
-        });
         Route::get('', 'MovieController@index');
         Route::post('', 'MovieController@store');
         Route::get('/{id}', 'MovieController@show');
