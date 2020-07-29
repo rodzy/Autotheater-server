@@ -60,8 +60,6 @@ class AuthController extends Controller
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
         return $this->respondWithToken($token);
-
-        
     }
 
     /**
@@ -81,8 +79,12 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
-        return response()->json(['message' => 'Log out successfull'], 200);
+        try {
+            auth()->logout();
+            return response()->json(['message' => 'Log out successfull'], 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => 'Error trying to log out user'], 404);
+        }
     }
 
     /**

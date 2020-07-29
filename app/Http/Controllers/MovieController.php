@@ -106,14 +106,14 @@ class MovieController extends Controller
         try {
             $this->validate($request, [
                 'name' => 'required',
-                'sinopsis' => 'required|min:10',
+                'sinopsis' => 'required',
                 'image' => 'required',
                 'banner' => 'required',
                 'classification_id' => 'required',
             ]);
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['message' => 'User not authenticated'], 404);
-            }
+            // if (!$user = JWTAuth::parseToken()->authenticate()) {
+            //     return response()->json(['message' => 'User not authenticated'], 404);
+            // }
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
@@ -124,7 +124,7 @@ class MovieController extends Controller
         $movie->banner = $request->input('banner');
         $movie->classification_id = $request->input('classification_id');
         if ($movie->update()) {
-            $movie->input('genres')->sync($request->input('genres') == null ?
+            $movie->genres()->sync($request->input('genres') == null ?
                 [] : $request->input('genres'));
             $response = [
                 'message' => 'Movied updated successfully',

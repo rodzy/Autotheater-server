@@ -30,14 +30,14 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('', 'MovieController@index');
         Route::post('', 'MovieController@store');
         Route::get('/{id}', 'MovieController@show');
-        Route::patch('/{id}', 'MovieController@update');
+        Route::post('/{id}', 'MovieController@update');
     });
 
     Route::group(['prefix' => 'products'], function () {
         Route::get('', 'ProductController@index');
         Route::post('', 'ProductController@store');
         Route::get('/{id}', 'ProductController@show');
-        Route::patch('/{id}', 'ProductController@update');
+        Route::post('/{id}', 'ProductController@update');
     });
     Route::group(['prefix' => 'locations'], function () {
         Route::get('', 'LocationController@index');
