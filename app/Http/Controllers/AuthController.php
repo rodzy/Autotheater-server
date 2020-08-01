@@ -69,7 +69,11 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        try {
+            return response()->json(auth()->user());
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
