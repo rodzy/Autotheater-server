@@ -30,7 +30,8 @@ class AuthController extends Controller
                 'name' => 'required',
                 'lastname' => 'required',
                 'email' => 'required|email|unique:users,email',
-                'password' => 'required|min:6'
+                'password' => 'required|min:6',
+                'role_id'=>'required'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);

@@ -27,11 +27,15 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('me', 'AuthController@me');
     });
     Route::group(['prefix' => 'movies'], function () {
+        Route::group(['prefix' => 'classification'], function () {
+            Route::get('','ClassificationController@index');
+        });
         Route::get('', 'MovieController@index');
         Route::post('', 'MovieController@store');
         Route::get('/{id}', 'MovieController@show');
         Route::post('/{id}', 'MovieController@update');
     });
+
 
     Route::group(['prefix' => 'products'], function () {
         Route::get('', 'ProductController@index');

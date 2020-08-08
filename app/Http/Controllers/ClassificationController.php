@@ -14,7 +14,14 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $classification = Classification::orderBy('id', 'asc')
+                ->get();
+            $response = $classification;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
