@@ -28,7 +28,7 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group(['prefix' => 'movies'], function () {
         Route::group(['prefix' => 'classification'], function () {
-            Route::get('','ClassificationController@index');
+            Route::get('', 'ClassificationController@index');
         });
         Route::get('', 'MovieController@index');
         Route::post('', 'MovieController@store');
@@ -39,7 +39,10 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::group(['prefix' => 'products'], function () {
         Route::group(['prefix' => 'classification'], function () {
-            Route::get('','ClassificationProductController@index');
+            Route::get('', 'ClassificationProductController@index');
+        });
+        Route::group(['prefix' => 'types'], function () {
+            Route::get('', 'ProductTypeController@index');
         });
         Route::get('', 'ProductController@index');
         Route::post('', 'ProductController@store');
