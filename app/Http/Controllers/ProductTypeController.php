@@ -14,7 +14,14 @@ class ProductTypeController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $productType = ProductType::orderBy('id', 'asc')
+                ->get();
+            $response = $productType;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
