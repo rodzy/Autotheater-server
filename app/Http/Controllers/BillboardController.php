@@ -33,16 +33,6 @@ class BillboardController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -98,16 +88,6 @@ class BillboardController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Billboard  $billboard
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Billboard $billboard)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -121,14 +101,4 @@ class BillboardController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Billboard  $billboard
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Billboard $billboard)
-    {
-        //
-    }
 }
