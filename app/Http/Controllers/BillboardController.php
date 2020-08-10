@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Billboard;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class BillboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth', ['only' => ['store','update']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +50,41 @@ class BillboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $this->validate($request,[
+
+                'date_now'=>'required|date',
+                'show_date'=>'required|date',
+                'status'=>'required',
+                'capacity'=>'required|integer',
+                'movie_id'=>'required',
+                'location_id'=>'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(),422);
+        }
+        if(JWTAuth::parseToken()->authenticate()){
+            $billboard=new Billboard();
+            $billboard->date_now=$request->input('date_now');
+            $billboard->show_date=$request->input('show_date');
+            $billboard->status=$request->input('status');
+            $billboard->capacity=$request->input('capacity');
+            $billboard->movie_id=$request->input('movie_id');
+            $billboard->location_id=$request->input('location_id');
+            if($billboard->save()){
+                $response = [
+                    'message' => 'Added to the billboard',
+                ];
+                return response()->json($response, 201);
+            }else{
+                $response = [
+                    'message' => 'Error: Cannot register the movie'
+                ];
+                return response()->json($response, 404);
+            }
+        }else{
+            return response()->json(['message' => 'Not authorized'], 401);
+        }
     }
 
     /**
