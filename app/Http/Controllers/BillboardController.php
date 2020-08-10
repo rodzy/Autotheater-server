@@ -10,7 +10,7 @@ class BillboardController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['store','update']]);
+        $this->middleware('jwt.auth', ['only' => ['store', 'update']]);
     }
     /**
      * Display a listing of the resource.
@@ -19,17 +19,15 @@ class BillboardController extends Controller
      */
     public function index()
     {
-        // try {
-        //     $billboard = Billboard::where('status', true)
-        //         ->orderBy('name', 'desc')
-        //         ->withCount('likes')
-        //         ->with(["genres"])
-        //         ->get();
-        //     $response = $billboard;
-        //     return response()->json($response, 200);
-        // } catch (\Exception $e) {
-        //     return response()->json($e->getMessage(), 422);
-        // }
+        try {
+            $billboard = Billboard::where('status', true)
+                ->orderBy('show_date', 'asc')
+                ->get();
+            $response = $billboard;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
@@ -41,38 +39,38 @@ class BillboardController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->validate($request,[
+            $this->validate($request, [
 
-                'date_now'=>'required|date',
-                'show_date'=>'required|date',
-                'status'=>'required',
-                'capacity'=>'required|integer',
-                'movie_id'=>'required',
-                'location_id'=>'required',
+                'date_now' => 'required|date',
+                'show_date' => 'required|date',
+                'status' => 'required',
+                'capacity' => 'required|integer',
+                'movie_id' => 'required',
+                'location_id' => 'required',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return $this->responseErrors($e->errors(),422);
+            return $this->responseErrors($e->errors(), 422);
         }
-        if(JWTAuth::parseToken()->authenticate()){
-            $billboard=new Billboard();
-            $billboard->date_now=$request->input('date_now');
-            $billboard->show_date=$request->input('show_date');
-            $billboard->status=$request->input('status');
-            $billboard->capacity=$request->input('capacity');
-            $billboard->movie_id=$request->input('movie_id');
-            $billboard->location_id=$request->input('location_id');
-            if($billboard->save()){
+        if (JWTAuth::parseToken()->authenticate()) {
+            $billboard = new Billboard();
+            $billboard->date_now = $request->input('date_now');
+            $billboard->show_date = $request->input('show_date');
+            $billboard->status = $request->input('status');
+            $billboard->capacity = $request->input('capacity');
+            $billboard->movie_id = $request->input('movie_id');
+            $billboard->location_id = $request->input('location_id');
+            if ($billboard->save()) {
                 $response = [
                     'message' => 'Added to the billboard',
                 ];
                 return response()->json($response, 201);
-            }else{
+            } else {
                 $response = [
-                    'message' => 'Error: Cannot register the movie'
+                    'message' => 'Error: Cannot register the billboard'
                 ];
                 return response()->json($response, 404);
             }
-        }else{
+        } else {
             return response()->json(['message' => 'Not authorized'], 401);
         }
     }
@@ -80,12 +78,19 @@ class BillboardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Billboard  $billboard
+     * @param  date $date
      * @return \Illuminate\Http\Response
      */
-    public function show(Billboard $billboard)
+    public function show($date)
     {
-        //
+        try {
+            $billboard = Billboard::where('show_date', $date)
+                ->orderBy('show_date', 'asc')
+                ->get();
+            return response()->json($billboard, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
 
@@ -93,12 +98,45 @@ class BillboardController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Billboard  $billboard
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Billboard $billboard)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $this->validate($request, [
+                'date_now' => 'required|date',
+                'show_date' => 'required|date',
+                'status' => 'required',
+                'capacity' => 'required|integer',
+                'movie_id' => 'required',
+                'location_id' => 'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(), 422);
+        }
+        if (JWTAuth::parseToken()->authenticate()) {
+            $billboard = Billboard::find($id);
+            $billboard->date_now = $request->input('date_now');
+            $billboard->show_date = $request->input('show_date');
+            $billboard->status = $request->input('status');
+            $billboard->capacity = $request->input('capacity');
+            $billboard->movie_id = $request->input('movie_id');
+            $billboard->location_id = $request->input('location_id');
+            if ($billboard->update()) {
+                $response = [
+                    'message' => 'Updated the billboard',
+                ];
+                return response()->json($response, 201);
+            } else {
+                $response = [
+                    'message' => 'Error: Cannot update the billboard'
+                ];
+                return response()->json($response, 404);
+            }
+        } else {
+            return response()->json(['message' => 'Not authorized'], 401);
+        }
     }
 
 
@@ -113,5 +151,4 @@ class BillboardController extends Controller
         }
         return response()->json(['errors' => $transformed], $statusHTML);
     }
-
 }
