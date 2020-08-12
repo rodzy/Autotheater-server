@@ -20,4 +20,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Rating');
     }
+
+    public function reservations()
+    {
+        return $this->belongsToMany('App\Reservations');
+    }
 }

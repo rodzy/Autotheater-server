@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Reservation;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ReservationController extends Controller
 {
@@ -36,6 +37,41 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $this->validate($request, [
+                'date_now' => 'required',
+                'tax' => 'required',
+                'total' => 'required',
+                'status' => 'required',
+                'billboard_id' => 'required',
+                'user_id' => 'required',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->responseErrors($e->errors(), 422);
+        }
+        if(JWTAuth::parseToken()->authenticate()){
+            $reservation=new Reservation();
+            $reservation->date_now = $request->input('date_now');
+            $reservation->tax = $request->input('tax');
+            $reservation->total = $request->input('total');
+            $reservation->status = $request->input('status');
+            $reservation->billboard_id = $request->input('billboard_id');
+            $reservation->user_id = $request->input('user_id');
+            if ($reservation->save()) {
+                $reservation->tickets()->sync($request->input('tickets') == null ?
+                [] : $request->input('tickets'));
+                $response = [
+                    'message' => 'New movie registered successfully',
+                ];
+                return response()->json($response, 201);
+            }
+            $response = [
+                'message' => 'Error: Cannot register the movie'
+            ];
+        }else{
+            return response()->json(['message' => 'Not authorized'], 401);
+        }
+        return response()->json($response, 404);
     }
 
     /**
@@ -45,17 +81,6 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Reservation $reservation)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reservation $reservation)
     {
         //
     }
@@ -71,7 +96,7 @@ class ReservationController extends Controller
     {
         //
     }
-    
+
     public function responseErrors($errors, $statusHTML)
     {
         $transformed = [];
