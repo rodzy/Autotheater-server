@@ -79,14 +79,4 @@ class ClassificationProductController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ClassificationProduct  $classificationProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ClassificationProduct $classificationProduct)
-    {
-        //
-    }
 }

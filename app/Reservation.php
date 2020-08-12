@@ -17,4 +17,8 @@ class Reservation extends Model
     {
         return $this->belongsToMany('App\Ticket');
     }
+    public function products()
+    {
+        return $this->belongsToMany('App\Product');
+    }
 }
