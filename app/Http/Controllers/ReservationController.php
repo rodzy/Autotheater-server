@@ -29,16 +29,6 @@ class ReservationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -81,15 +71,16 @@ class ReservationController extends Controller
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Reservation $reservation)
+    
+    public function responseErrors($errors, $statusHTML)
     {
-        //
+        $transformed = [];
+        foreach ($errors as $field => $message) {
+            $transformed[] = [
+                'field' => $field,
+                'message' => $message[0]
+            ];
+        }
+        return response()->json(['errors' => $transformed], $statusHTML);
     }
 }
