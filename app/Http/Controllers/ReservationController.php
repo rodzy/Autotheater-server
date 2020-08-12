@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth', ['only' => ['store']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,14 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $reservation = Reservation::where('status', true)
+                ->orderBy('id', 'desc')
+                ->get();
+            return response()->json($reservation, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
@@ -35,7 +46,6 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
