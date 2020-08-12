@@ -6,16 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Billboard extends Model
 {
-    public function location()
+    public function locations()
     {
-        return $this->belongsTo('App\Location');
+        return $this->hasMany('App\Location');
     }
-    public function movie()
+    public function movies()
     {
-        return $this->belongsTo('App\Movie');
-    }
-    public function tickets()
-    {
-        return $this->belongsToMany('App\Ticket');
+        return $this->hasMany('App\Movie');
     }
 }
