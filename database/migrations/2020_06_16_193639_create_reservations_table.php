@@ -21,14 +21,12 @@ class CreateReservationsTable extends Migration
             $table->boolean('status')->default(true);
             $table->unsignedInteger('billboard_id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('product_id');
             $table->timestamps();
             /**
              * Keys
              */
             $table->foreign('billboard_id')->references('id')->on('billboards');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
