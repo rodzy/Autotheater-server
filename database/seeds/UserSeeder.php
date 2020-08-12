@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
         $user = \App\User::create([
             'name' => 'administrator',
             'email' => 'admin@autotheater.co',
-            'password' => bcrypt('123456'),
+            'password' => bcrypt('1234567890'),
             'role_id' => 1
         ]);
         $user->save();
