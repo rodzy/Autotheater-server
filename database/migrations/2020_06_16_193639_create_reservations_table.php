@@ -40,10 +40,8 @@ class CreateReservationsTable extends Migration
         Schema::table('reservations', function (Blueprint $table) {
             $table->dropForeign('reservation_billboard_id_foreign');
             $table->dropForeign('reservation_user_id_foreign');
-            $table->dropForeign('reservation_product_id_foreign');
             $table->dropColumn('billboard_id');
             $table->dropColumn('user_id');
-            $table->dropColumn('product_id');
         });
         Schema::dropIfExists('reservations');
     }
