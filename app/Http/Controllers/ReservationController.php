@@ -60,13 +60,15 @@ class ReservationController extends Controller
             if ($reservation->save()) {
                 $reservation->tickets()->sync($request->input('tickets') == null ?
                 [] : $request->input('tickets'));
+                $reservation->products()->sync($request->input('products') == null ?
+                [] : $request->input('products'));
                 $response = [
-                    'message' => 'New movie registered successfully',
+                    'message' => 'Reservation registered successfully',
                 ];
                 return response()->json($response, 201);
             }
             $response = [
-                'message' => 'Error: Cannot register the movie'
+                'message' => 'Error: Cannot register the reservation'
             ];
         }else{
             return response()->json(['message' => 'Not authorized'], 401);
@@ -77,12 +79,20 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Reservation  $reservation
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Reservation $reservation)
+    public function show($id)
     {
-        //
+        try {
+            $reservation = Reservation::where('id', $id)
+                ->with(["tickets"],["products"])
+                ->first();
+            $response = $reservation;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
