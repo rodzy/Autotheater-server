@@ -35,8 +35,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/{id}', 'MovieController@show');
         Route::post('/{id}', 'MovieController@update');
     });
-
-
     Route::group(['prefix' => 'products'], function () {
         Route::group(['prefix' => 'classification'], function () {
             Route::get('', 'ClassificationProductController@index');
@@ -61,6 +59,17 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'genres'], function () {
         Route::get('', 'GenreController@index');
     });
+    Route::group(['prefix' => 'billboard'], function () {
+        Route::get('','BillboardController@index');
+        Route::post('','BillboardController@store');
+        Route::get('/{id}','BillboardController@show');
+    });
+    Route::group(['prefix' => 'reservation'], function () {
+        Route::get('','ReservationController@index');
+        Route::post('','ReservationController@store');
+        Route::get('/{id}','ReservationController@show');
+    });
+
     Route::group(['prefix' => 'tickets'], function () {
         Route::get('', 'TicketController@index');
         Route::post('', 'TicketController@store');
