@@ -84,6 +84,7 @@ class ProductController extends Controller
     {
         try {
             $products = Product::where('id', $id)
+                ->withCount('ratings')
                 ->with(["classificationproducts"])
                 ->first();
             $response = $products;

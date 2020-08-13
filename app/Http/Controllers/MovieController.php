@@ -11,7 +11,7 @@ class MovieController extends Controller
 
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['store','update']]);
+        $this->middleware('jwt.auth', ['only' => ['store', 'update']]);
     }
     /**
      * Display a listing of the resource.
@@ -52,7 +52,7 @@ class MovieController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        if(JWTAuth::parseToken()->authenticate()){
+        if (JWTAuth::parseToken()->authenticate()) {
             $movie = new Movie();
             $movie->name = $request->input('name');
             $movie->sinopsis = $request->input('sinopsis');
@@ -61,7 +61,7 @@ class MovieController extends Controller
             $movie->classification_id = $request->input('classification_id');
             if ($movie->save()) {
                 $movie->genres()->sync($request->input('genres') == null ?
-                [] : $request->input('genres'));
+                    [] : $request->input('genres'));
                 $response = [
                     'message' => 'New movie registered successfully',
                 ];
@@ -70,7 +70,7 @@ class MovieController extends Controller
             $response = [
                 'message' => 'Error: Cannot register the movie'
             ];
-        }else{
+        } else {
             return response()->json(['message' => 'Not authorized'], 401);
         }
         return response()->json($response, 404);
@@ -86,6 +86,7 @@ class MovieController extends Controller
     {
         try {
             $movies = Movie::where('id', $id)
+                ->withCount('likes')
                 ->with(["genres"])
                 ->first();
             $response = $movies;
@@ -115,7 +116,7 @@ class MovieController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        if(JWTAuth::parseToken()->authenticate()){
+        if (JWTAuth::parseToken()->authenticate()) {
             $movie = Movie::find($id);
             $movie->name = $request->input('name');
             $movie->sinopsis = $request->input('sinopsis');
@@ -124,7 +125,7 @@ class MovieController extends Controller
             $movie->classification_id = $request->input('classification_id');
             if ($movie->update()) {
                 $movie->genres()->sync($request->input('genres') == null ?
-                [] : $request->input('genres'));
+                    [] : $request->input('genres'));
                 $response = [
                     'message' => 'Movied updated successfully',
                 ];
@@ -133,7 +134,7 @@ class MovieController extends Controller
             $response = [
                 'message' => 'Error: Cannot update movie registry'
             ];
-        }else{
+        } else {
             return response()->json(['message' => 'Not authorized'], 401);
         }
         return response()->json($response, 404);

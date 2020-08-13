@@ -51,10 +51,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('', 'LocationController@index');
     });
     Route::group(['prefix' => 'likes'], function () {
-        Route::get('/{id}', 'LikeController@store');
+        Route::post('/{id}', 'LikeController@store');
     });
     Route::group(['prefix' => 'rating'], function () {
-        Route::get('/{id}', 'RatingController@store');
+        Route::post('/{id}', 'RatingController@store');
     });
     Route::group(['prefix' => 'genres'], function () {
         Route::get('', 'GenreController@index');
