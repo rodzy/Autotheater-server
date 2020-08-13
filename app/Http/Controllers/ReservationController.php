@@ -21,7 +21,7 @@ class ReservationController extends Controller
     {
         try {
             $reservation = Reservation::where('status', true)
-                ->orderBy('id', 'desc')
+                ->orderBy('id', 'desc')->with(["tickets", "products"])
                 ->get();
             return response()->json($reservation, 200);
         } catch (\Exception $e) {
@@ -49,8 +49,8 @@ class ReservationController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
         }
-        if(JWTAuth::parseToken()->authenticate()){
-            $reservation=new Reservation();
+        if (JWTAuth::parseToken()->authenticate()) {
+            $reservation = new Reservation();
             $reservation->date_now = $request->input('date_now');
             $reservation->tax = $request->input('tax');
             $reservation->total = $request->input('total');
@@ -59,9 +59,9 @@ class ReservationController extends Controller
             $reservation->user_id = $request->input('user_id');
             if ($reservation->save()) {
                 $reservation->tickets()->sync($request->input('tickets') == null ?
-                [] : $request->input('tickets'));
+                    [] : $request->input('tickets'));
                 $reservation->products()->sync($request->input('products') == null ?
-                [] : $request->input('products'));
+                    [] : $request->input('products'));
                 $response = [
                     'message' => 'Reservation registered successfully',
                 ];
@@ -70,7 +70,7 @@ class ReservationController extends Controller
             $response = [
                 'message' => 'Error: Cannot register the reservation'
             ];
-        }else{
+        } else {
             return response()->json(['message' => 'Not authorized'], 401);
         }
         return response()->json($response, 404);
@@ -86,7 +86,7 @@ class ReservationController extends Controller
     {
         try {
             $reservation = Reservation::where('id', $id)
-                ->with(["tickets"],["products"])
+                ->with(["tickets", "products"])
                 ->first();
             $response = $reservation;
             return response()->json($response, 200);

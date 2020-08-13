@@ -76,12 +76,30 @@ class BillboardController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Filter dates
      *
-     * @param  date $date
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($date)
+    public function show($id)
+    {
+        try {
+            $billboard = Billboard::where('id', $id)
+                ->get()->first();
+            return response()->json($billboard, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
+    }
+
+
+    /**
+     * Filter dates
+     *
+     * @param  datetime $date
+     * @return \Illuminate\Http\Response
+     */
+    public function filter($date)
     {
         try {
             $billboard = Billboard::where('show_date', $date)

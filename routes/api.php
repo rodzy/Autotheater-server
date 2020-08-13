@@ -63,6 +63,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('','BillboardController@index');
         Route::post('','BillboardController@store');
         Route::get('/{id}','BillboardController@show');
+        Route::get('/filter/{date}','BillboardController@filter');
     });
     Route::group(['prefix' => 'reservation'], function () {
         Route::get('','ReservationController@index');
