@@ -15,8 +15,8 @@ class CreateBillboardsTable extends Migration
     {
         Schema::create('billboards', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('date_now');
-            $table->date('show_date');
+            $table->dateTime('date_now');
+            $table->dateTime('show_date');
             $table->boolean('status')->default(true);
             $table->integer('capacity');
             $table->unsignedInteger('movie_id');

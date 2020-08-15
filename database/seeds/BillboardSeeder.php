@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class BillboardSeeder extends Seeder
@@ -12,8 +13,8 @@ class BillboardSeeder extends Seeder
     public function run()
     {
         $billboard = new App\Billboard();
-        $billboard->date_now = now();
-        $billboard->show_date = now();
+        $billboard->date_now = Carbon::now()->setTimezone('GMT-6');
+        $billboard->show_date = Carbon::create(2020, 8, 23, 16, 30, 00, 'America/Costa_Rica');
         $billboard->status = true;
         $billboard->capacity = 30;
         $billboard->movie_id = 1;
