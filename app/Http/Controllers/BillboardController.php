@@ -103,6 +103,7 @@ class BillboardController extends Controller
     {
         try {
             $billboard = Billboard::where('show_date', $date)
+                ->orWhere('show_date', 'like', '%' . $date . '%')
                 ->orderBy('show_date', 'asc')
                 ->get();
             return response()->json($billboard, 200);
