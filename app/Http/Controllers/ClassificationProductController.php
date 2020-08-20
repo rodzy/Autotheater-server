@@ -48,12 +48,19 @@ class ClassificationProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ClassificationProduct  $classificationProduct
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ClassificationProduct $classificationProduct)
+    public function show($id)
     {
-        //
+        try {
+            $classification = ClassificationProduct::where('id', $id)
+                ->first();
+            $response = $classification;
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 422);
+        }
     }
 
     /**
