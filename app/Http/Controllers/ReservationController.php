@@ -42,7 +42,6 @@ class ReservationController extends Controller
                 'date_now' => 'required',
                 'tax' => 'required',
                 'total' => 'required',
-                'status' => 'required',
                 'billboard_id' => 'required',
                 'user_id' => 'required',
             ]);
@@ -54,7 +53,6 @@ class ReservationController extends Controller
             $reservation->date_now = $request->input('date_now');
             $reservation->tax = $request->input('tax');
             $reservation->total = $request->input('total');
-            $reservation->status = $request->input('status');
             $reservation->billboard_id = $request->input('billboard_id');
             $reservation->user_id = $request->input('user_id');
             if ($reservation->save()) {
