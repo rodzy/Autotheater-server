@@ -21,6 +21,6 @@ class ReservationSeeder extends Seeder
         $reservation->user_id = 1;
         $reservation->save();
         $reservation->tickets()->attach([1,2,3,4]);
-        $reservation->products()->attach([1,2]);
+        $reservation->products()->attach([1,1,1,2]);
     }
 }

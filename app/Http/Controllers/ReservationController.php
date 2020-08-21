@@ -44,6 +44,7 @@ class ReservationController extends Controller
                 'total' => 'required',
                 'billboard_id' => 'required',
                 'user_id' => 'required',
+                'tickets' =>'required',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
@@ -56,9 +57,9 @@ class ReservationController extends Controller
             $reservation->billboard_id = $request->input('billboard_id');
             $reservation->user_id = $request->input('user_id');
             if ($reservation->save()) {
-                $reservation->tickets()->sync($request->input('tickets') == null ?
+                $reservation->tickets()->attach($request->input('tickets') == null ?
                     [] : $request->input('tickets'));
-                $reservation->products()->sync($request->input('products') == null ?
+                $reservation->products()->attach($request->input('products') == null ?
                     [] : $request->input('products'));
                 $response = [
                     'message' => 'Reservation registered successfully',
