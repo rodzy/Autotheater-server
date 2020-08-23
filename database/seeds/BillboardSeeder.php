@@ -20,5 +20,6 @@ class BillboardSeeder extends Seeder
         $billboard->movie_id = 1;
         $billboard->location_id = 1;
         $billboard->save();
+        $billboard->tickets()->attach([2,3]);
     }
 }

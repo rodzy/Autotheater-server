@@ -14,4 +14,8 @@ class Billboard extends Model
     {
         return $this->hasMany('App\Movie');
     }
+    public function tickets()
+    {
+        return $this->belongsToMany('App\Ticket');
+    }
 }

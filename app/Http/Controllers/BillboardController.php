@@ -47,6 +47,7 @@ class BillboardController extends Controller
                 'capacity' => 'required|integer',
                 'movie_id' => 'required',
                 'location_id' => 'required',
+                'tickets' => 'required'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
@@ -60,6 +61,8 @@ class BillboardController extends Controller
             $billboard->movie_id = $request->input('movie_id');
             $billboard->location_id = $request->input('location_id');
             if ($billboard->save()) {
+                $billboard->tickets()->attach($request->input('tickets') == null ?
+                    [] : $request->input('tickets'));
                 $response = [
                     'message' => 'Added to the billboard',
                 ];

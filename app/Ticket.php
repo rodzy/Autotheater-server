@@ -10,4 +10,8 @@ class Ticket extends Model
     {
         return $this->belongsToMany('App\Reservation');
     }
+    public function billboards()
+    {
+        return $this->belongsToMany('App\Billboard');
+    }
 }
