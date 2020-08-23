@@ -108,7 +108,8 @@ class ProductController extends Controller
                 'name' => 'required',
                 'description' => 'required',
                 'price' => 'required',
-                'type_id' => 'required'
+                'type_id' => 'required',
+                'classificationproducts'=>'required'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->responseErrors($e->errors(), 422);
@@ -121,8 +122,8 @@ class ProductController extends Controller
             $product->status = true;
             $product->type_id = $request->input('type_id');
             if ($product->update()) {
-                $product->classificationproducts()->sync($request->input('classificationproducts_id') == null ?
-                    [] : $request->input('classificationproducts_id'));
+                $product->classificationproducts()->sync($request->input('classificationproducts') == null ?
+                    [] : $request->input('classificationproducts'));
                 $response = [
                     'message' => 'Product updated successfully',
                 ];
