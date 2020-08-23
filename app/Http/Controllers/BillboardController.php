@@ -21,6 +21,7 @@ class BillboardController extends Controller
     {
         try {
             $billboard = Billboard::where('status', true)
+                ->with(['tickets'])
                 ->orderBy('show_date', 'asc')
                 ->get();
             $response = $billboard;
@@ -88,6 +89,7 @@ class BillboardController extends Controller
     {
         try {
             $billboard = Billboard::where('id', $id)
+                ->with(['tickets'])
                 ->get()->first();
             return response()->json($billboard, 200);
         } catch (\Exception $e) {

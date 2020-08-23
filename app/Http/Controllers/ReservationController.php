@@ -58,9 +58,9 @@ class ReservationController extends Controller
             $reservation->user_id = $request->input('user_id');
             if ($reservation->save()) {
                 $reservation->tickets()->attach($request->input('tickets') == null ?
-                    [] : $request->input('tickets'));
+                [] : $request->input('tickets'));
                 $reservation->products()->attach($request->input('products') == null ?
-                    [] : $request->input('products'));
+                [] : $request->input('products'));
                 $response = [
                     'message' => 'Reservation registered successfully',
                 ];
