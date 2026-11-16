@@ -5046,7 +5046,11 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "ext-iconv": "*",
+                "php": ">=7.2"
+            },
+            "provide": {
+                "ext-mbstring": "*"
             },
             "type": "metapackage",
             "extra": {
@@ -5860,6 +5864,9 @@
             },
             "conflict": {
                 "symfony/translation-contracts": "<2.5"
+            },
+            "conflict": {
+                "symfony/translation-contracts": ">=3.0"
             },
             "require-dev": {
                 "symfony/emoji": "^7.1|^8.0",
@@ -8572,6 +8579,11 @@
                 "php": "^7.2 || ^8.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.10-dev"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "src/"
