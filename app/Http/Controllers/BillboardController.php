@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Billboard;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class BillboardController extends Controller
 {
